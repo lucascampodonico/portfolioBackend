@@ -1,0 +1,10 @@
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/springbootdb
+        username: root
+        password: lucas
+        driver-class-name: com.mysql.jdbc.Driver
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
+        show-sql: true
