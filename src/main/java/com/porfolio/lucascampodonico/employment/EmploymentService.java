@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import jakarta.validation.Valid;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,16 +19,13 @@ public class EmploymentService {
         @Autowired
         public IEmploymentRepository employmentRepository;
 
-        public Optional<Employment> findById(Integer id) {
-            return employmentRepository.findById(id);
+        public Employment findById(Integer id) {
+            return employmentRepository.findById(id)
+            .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleo"));
         }
 
-        public <S extends Employment> Employment save(@Valid Employment request) {
+        public <S extends Employment> Employment save(Employment request) {
             return employmentRepository.save(request);
-        }
-
-        public List<Employment> findAll(Sort sort) {
-            return employmentRepository.findAll(sort);
         }
 
         public Page<Employment> findAll(Pageable pageable) {
@@ -36,8 +33,19 @@ public class EmploymentService {
         }
 
         public void deleteById(Integer id) {
-            employmentRepository.deleteById(id);
+            Optional<Employment> employeeOptional = employmentRepository.findById(id);
+            if (employeeOptional.isPresent()) {
+                employmentRepository.deleteById(id);
+            } else {
+                throw new EntityNotFoundException("El empleo no existee");
+            }
         }
+
+        public List<Employment> findAll(Sort sort) {
+            return employmentRepository.findAll(sort);
+        }
+
+        
 
         
 }
