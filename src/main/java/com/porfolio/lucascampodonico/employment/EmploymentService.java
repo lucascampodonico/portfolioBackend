@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -26,6 +27,20 @@ public class EmploymentService {
 
         public <S extends Employment> Employment save(Employment request) {
             return employmentRepository.save(request);
+        }
+
+        public ResponseEntity<Employment> updateById(Integer id, Employment employmentUpdated) {
+            Employment employment = employmentRepository.findById(id)
+            .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleo"));
+
+            employment.setNameEmployment(employmentUpdated.getNameEmployment());
+            employment.setDescription(employmentUpdated.getDescription());
+            employment.setDateFrom(employmentUpdated.getDateFrom());
+            employment.setDateTo(employmentUpdated.getDateTo());
+
+            Employment employmentUpdatedDB = employmentRepository.save(employment);
+
+            return ResponseEntity.ok(employmentUpdatedDB);
         }
 
         public Page<Employment> findAll(Pageable pageable) {

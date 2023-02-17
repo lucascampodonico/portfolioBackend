@@ -1,11 +1,14 @@
 package com.porfolio.lucascampodonico.employment;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.StreamingHttpOutputMessage.Body;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +27,6 @@ public class EmploymentController {
     
     private final EmploymentService service;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register")
     public Object register(
       @Valid @RequestBody Employment request
@@ -41,6 +43,11 @@ public class EmploymentController {
     @GetMapping("/{id}")
     public Employment getById(@PathVariable Integer id){
       return service.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Employment> updateById(@PathVariable Integer id, @Valid @RequestBody Employment body){
+      return service.updateById(id, body);
     }
 
     @DeleteMapping("/{id}")
