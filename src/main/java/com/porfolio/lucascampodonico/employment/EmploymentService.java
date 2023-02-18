@@ -32,14 +32,11 @@ public class EmploymentService {
         public ResponseEntity<Employment> updateById(Integer id, Employment employmentUpdated) {
             Employment employment = employmentRepository.findById(id)
             .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleo"));
-
             employment.setNameEmployment(employmentUpdated.getNameEmployment());
             employment.setDescription(employmentUpdated.getDescription());
             employment.setDateFrom(employmentUpdated.getDateFrom());
             employment.setDateTo(employmentUpdated.getDateTo());
-
             Employment employmentUpdatedDB = employmentRepository.save(employment);
-
             return ResponseEntity.ok(employmentUpdatedDB);
         }
 
