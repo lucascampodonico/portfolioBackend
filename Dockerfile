@@ -3,7 +3,7 @@
 #
 FROM maven:3.8.4-openjdk-17 AS build
 COPY . .
-RUN mvnw clean package
+RUN mvn clean package
 
 #
 # Package stage
