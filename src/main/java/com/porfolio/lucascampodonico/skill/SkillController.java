@@ -1,4 +1,4 @@
-package com.porfolio.lucascampodonico.employment;
+package com.porfolio.lucascampodonico.skill;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,32 +18,32 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/employment")
+@RequestMapping("/api/v1/skill")
 @RequiredArgsConstructor
-public class EmploymentController {
+public class SkillController {
     
-    private final EmploymentService service;
+    private final SkillService service;
 
     @PostMapping("/register")
     public Object register(
-      @Valid @RequestBody Employment request
+      @Valid @RequestBody Skill request
     ) {
         return service.save(request);
     }
     
     @GetMapping("/all")
-    public List<Employment> getEmployments(){
-      Sort sort = Sort.by(Sort.Direction.ASC, "nameEmployment");
+    public List<Skill> getSkills(){
+      Sort sort = Sort.by(Sort.Direction.ASC, "nameSkill");
       return service.findAll(sort);
     }
 
     @GetMapping("/{id}")
-    public Employment getById(@PathVariable Integer id){
+    public Skill getById(@PathVariable Integer id){
       return service.findById(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employment> updateById(@PathVariable Integer id, @Valid @RequestBody Employment body){
+    public ResponseEntity<Skill> updateById(@PathVariable Integer id, @Valid @RequestBody Skill body){
       return service.updateById(id, body);
     }
 

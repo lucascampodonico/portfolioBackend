@@ -38,7 +38,7 @@ public class AuthenticationService {
   }
 
   
-    public AuthenticationResponse authenticate(AuthenticationRequest request) throws AuthenticationException{
+    public AuthenticationResponse authenticate(LoginRequest request) throws AuthenticationException{
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 request.getEmail(),

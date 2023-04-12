@@ -1,4 +1,4 @@
-package com.porfolio.lucascampodonico.employment;
+package com.porfolio.lucascampodonico.education;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,32 +18,32 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/employment")
+@RequestMapping("/api/v1/education")
 @RequiredArgsConstructor
-public class EmploymentController {
+public class EducationController {
     
-    private final EmploymentService service;
+    private final EducationService service;
 
     @PostMapping("/register")
     public Object register(
-      @Valid @RequestBody Employment request
+      @Valid @RequestBody Education request
     ) {
         return service.save(request);
     }
     
     @GetMapping("/all")
-    public List<Employment> getEmployments(){
-      Sort sort = Sort.by(Sort.Direction.ASC, "nameEmployment");
+    public List<Education> getEducations(){
+      Sort sort = Sort.by(Sort.Direction.ASC, "nameEducation");
       return service.findAll(sort);
     }
 
     @GetMapping("/{id}")
-    public Employment getById(@PathVariable Integer id){
+    public Education getById(@PathVariable Integer id){
       return service.findById(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employment> updateById(@PathVariable Integer id, @Valid @RequestBody Employment body){
+    public ResponseEntity<Education> updateById(@PathVariable Integer id, @Valid @RequestBody Education body){
       return service.updateById(id, body);
     }
 

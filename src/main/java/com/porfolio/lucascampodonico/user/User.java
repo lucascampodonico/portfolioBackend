@@ -19,13 +19,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
+@Data //Es una anotación de Lombok, una biblioteca de Java que reduce la cantidad de código repetitivo, generando automáticamente métodos getter, setter, equals, hashCode y toString. En este caso, la anotación @Data genera automáticamente estos métodos para la clase User.
+@Builder //Es una anotación de Lombok que genera automáticamente un constructor de tipo "builder" para la clase User. Este constructor permite construir objetos User utilizando un estilo de programación fluida y encadenada.
+@NoArgsConstructor 
+@AllArgsConstructor //Son anotaciones de Lombok que generan automáticamente constructores sin argumentos y con todos los argumentos, respectivamente, para la clase User.
+@Entity // Es una anotación de JPA que indica que la clase User es una entidad mapeada a una tabla en una base de datos. Esto permite que la clase User sea persistida y manipulada en la base de datos.
 // @Table(name= "User")
 public class User implements UserDetails{
+    //implements UserDetails: Indica que la clase User implementa la interfaz UserDetails de Spring Security, que define los métodos necesarios para representar los detalles de un usuario en un sistema de autenticación y autorización.
 
     @Id
     @GeneratedValue
@@ -47,6 +48,8 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Role role;
 
+
+    //son implementaciones de la interfaz UserDetails que definen el comportamiento de un usuario en un sistema de autenticación y autorización, como la obtención de roles, nombre de usuario, contraseña y estado de cuenta.
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
