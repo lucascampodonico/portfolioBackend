@@ -33,7 +33,7 @@ public class ProjectService {
             Project project = projectRepository.findById(id)
             .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleo"));
             project.setNameProject(projectUpdated.getNameProject());
-            project.setDescription(projectUpdated.getDescription());
+            project.setImageUrl(projectUpdated.getImageUrl());
             Project projectUpdatedDB = projectRepository.save(project);
             return ResponseEntity.ok(projectUpdatedDB);
         }

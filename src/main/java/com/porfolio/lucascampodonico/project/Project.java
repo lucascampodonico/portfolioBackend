@@ -24,13 +24,13 @@ public class Project {
     private String nameProject;
 
     @NotBlank
-    private String description;
+    private String imageUrl;
     
 
     public Project(@NotBlank String nameProject,
-            @NotBlank String description) {
+            @NotBlank String imageUrl) {
         this.nameProject = nameProject;
-        this.description = description;
+        this.imageUrl = imageUrl;
     }
 
     public String getNameProject() {
@@ -41,12 +41,12 @@ public class Project {
         this.nameProject = nameProject;
     }
 
-    public String getDescription() {
-        return description;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
 
