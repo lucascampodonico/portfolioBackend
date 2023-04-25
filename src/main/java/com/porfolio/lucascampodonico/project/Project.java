@@ -27,8 +27,7 @@ public class Project {
     private String imageUrl;
     
 
-    public Project(@NotBlank String nameProject,
-            @NotBlank String imageUrl) {
+    public Project(@NotBlank String nameProject, @NotBlank String imageUrl) {
         this.nameProject = nameProject;
         this.imageUrl = imageUrl;
     }

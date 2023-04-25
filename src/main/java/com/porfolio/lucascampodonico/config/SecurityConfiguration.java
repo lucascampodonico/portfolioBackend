@@ -27,7 +27,8 @@ public class SecurityConfiguration {
         return http
             .csrf().disable() //Se deshabilita la protección CSRF (Cross-Site Request Forgery) en la aplicación.
             .authorizeHttpRequests() //Se define la autorización de las peticiones HTTP.
-                .requestMatchers("/api/v1/auth/**").permitAll() //Se permite el acceso a todas las peticiones que coincidan con el patrón "/api/v1/auth/**", lo que significa que no requieren autenticación.
+                .requestMatchers("/api/v1/auth/**").permitAll()
+                .requestMatchers("/**", "/index.html").permitAll() //Se permite el acceso a todas las peticiones que coincidan con el patrón "/api/v1/auth/**", lo que significa que no requieren autenticación.
                 .requestMatchers("/api/v1/media/uploads/**").permitAll()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .anyRequest().authenticated() //Se permite el acceso a todas las peticiones que coincidan con el patrón "/api/v1/auth/**", lo que significa que no requieren autenticación.

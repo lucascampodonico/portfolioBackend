@@ -22,7 +22,7 @@ public class EducationService {
 
         public Education findById(Integer id) {
             return educationRepository.findById(id)
-            .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleo"));
+            .orElseThrow(()-> new EntityNotFoundException("No se encontro la educación"));
         }
 
         public <S extends Education> Education save(Education request) {
@@ -31,7 +31,7 @@ public class EducationService {
 
         public ResponseEntity<Education> updateById(Integer id, Education educationUpdated) {
             Education education = educationRepository.findById(id)
-            .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleo"));
+            .orElseThrow(()-> new EntityNotFoundException("No se encontro la educación"));
             education.setNameEducation(educationUpdated.getNameEducation());
             education.setDescription(educationUpdated.getDescription());
             education.setDateFrom(educationUpdated.getDateFrom());
@@ -49,7 +49,7 @@ public class EducationService {
             if (employeeOptional.isPresent()) {
                 educationRepository.deleteById(id);
             } else {
-                throw new EntityNotFoundException("El empleo no existee");
+                throw new EntityNotFoundException("La educacion no existe.");
             }
         }
 

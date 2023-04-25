@@ -22,7 +22,7 @@ public class SkillService {
 
         public Skill findById(Integer id) {
             return skillRepository.findById(id)
-            .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleo"));
+            .orElseThrow(()-> new EntityNotFoundException("No se encontro la skill"));
         }
 
         public <S extends Skill> Skill save(Skill request) {
@@ -31,7 +31,7 @@ public class SkillService {
 
         public ResponseEntity<Skill> updateById(Integer id, Skill skillUpdated) {
             Skill skill = skillRepository.findById(id)
-            .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleo"));
+            .orElseThrow(()-> new EntityNotFoundException("No se encontro la skill"));
             skill.setNameSkill(skillUpdated.getNameSkill());
             Skill skillUpdatedDB = skillRepository.save(skill);
             return ResponseEntity.ok(skillUpdatedDB);
@@ -46,7 +46,7 @@ public class SkillService {
             if (employeeOptional.isPresent()) {
                 skillRepository.deleteById(id);
             } else {
-                throw new EntityNotFoundException("El empleo no existee");
+                throw new EntityNotFoundException("Esta skill no existe");
             }
         }
 

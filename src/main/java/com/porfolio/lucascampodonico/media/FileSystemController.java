@@ -27,6 +27,7 @@ public class FileSystemController {
     private final StorageService storageService;
     private final HttpServletRequest request;
 
+    
     @PostMapping("upload")
     public Map<String, String> uploadFile(@RequestParam("file") MultipartFile multipartFile) {
     
@@ -42,13 +43,14 @@ public class FileSystemController {
     }
 
     @GetMapping("/uploads/{filename:.+}")
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) throws IOException {
-        Resource file = storageService.loadAsResource(filename);
-        String contentType = Files.probeContentType(file.getFile().toPath());
+    public ResponseEntity<Resource> getFile(
+        @PathVariable String filename) throws IOException {
+            Resource file = storageService.loadAsResource(filename);
+            String contentType = Files.probeContentType(file.getFile().toPath());
 
-        return ResponseEntity
-                .ok()
-                .header(HttpHeaders.CONTENT_TYPE, contentType)
-                .body(file);
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_TYPE, contentType)
+                    .body(file);
     }   
 }
