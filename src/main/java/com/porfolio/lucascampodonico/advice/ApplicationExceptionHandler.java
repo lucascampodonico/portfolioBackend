@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 
@@ -89,6 +90,13 @@ public class ApplicationExceptionHandler {
                 .body(new ErrorResponse(ex.getStatusCode().value(), ex.getReason()));
     }
     
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException ex) {
+        String errorMessage = "El token JWT ha expirado"; // Mensaje personalizado
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
+    }
+
     public static class ErrorResponse {
         private int status;
         private String message;
@@ -143,4 +151,8 @@ public class ApplicationExceptionHandler {
             this.timestamp = timestamp;
         }
     }
+
+
 }
+
+
