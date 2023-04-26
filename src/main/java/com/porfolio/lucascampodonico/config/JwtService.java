@@ -22,13 +22,14 @@ public class JwtService {
 
     //Este método toma un token JWT como entrada y extrae el nombre de usuario (subject) del token utilizando una función de resolución de reclamos (claimsResolver) que se pasa como argumento. Devuelve el nombre de usuario extraído del token.
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+            return extractClaim(token, Claims::getSubject);
     }
 
     //Este método generaliza la extracción de reclamos de un token JWT. Toma un token JWT y una función de resolución de reclamos (claimsResolver) como argumentos y utiliza la función de resolución de reclamos para extraer un reclamo específico del token. Devuelve el valor del reclamo extraído del token.
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
+            final Claims claims = extractAllClaims(token);
+            return claimsResolver.apply(claims);
+        
     }
 
     public String generateToken(UserDetails userDetails){
@@ -58,7 +59,7 @@ public class JwtService {
 
     //Este método verifica si un token JWT dado ha expirado comparando la fecha de expiración del token con la fecha actual. Devuelve true si el token ha expirado y false en caso contrario.
     public boolean isTokenExpired(String token){
-        return extractExpiration(token).before(new Date());
+            return extractExpiration(token).before(new Date());
     }
 
     // Este método extrae la fecha de expiración de un token JWT dado utilizando una función de resolución de reclamos (claimsResolver) que se pasa como argumento. Devuelve la fecha de expiración extraída del token.
@@ -68,13 +69,15 @@ public class JwtService {
 
     // Este método extrae todos los reclamos de un token JWT dado utilizando la clase Jwts del paquete io.jsonwebtoken. Devuelve un objeto Claims que contiene todos los reclamos del token.
     private Claims extractAllClaims(String token){
-        return Jwts
+            return Jwts
         .parserBuilder() //Este método estático de la clase Jwts crea una instancia del analizador de tokens JWT (JwtParserBuilder). Se utiliza para configurar y construir un analizador de tokens JWT.
         .setSigningKey(getSignInKey()) //Este método establece la clave de firma utilizada para verificar la firma del token JWT. En este caso, se utiliza la clave secreta obtenida mediante el método getSignInKey() como la clave de firma.
         .build() //Este método finaliza la configuración del analizador de tokens JWT y lo construye en una instancia de JwtParser, que se utiliza para analizar y validar tokens JWT.
         .parseClaimsJws(token) //Este método analiza el token JWT proporcionado (token) y lo convierte en un objeto Jws que contiene la parte de cabecera, la parte de cuerpo (claims), y la firma del token.
         .getBody(); // Este método obtiene el cuerpo (claims) del token JWT analizado como un objeto Claims, que contiene los datos de las reclamaciones (claims) del token.
-    }
+    
+
+        }
 
     //Este método obtiene la clave secreta utilizada para firmar y verificar los tokens JWT. La clave secreta se obtiene a partir de una cadena de caracteres codificada en base64 que se encuentra definida como una constante (SECRET_KEY) en la clase. La clave se decodifica de base64 y se utiliza para crear una clave HMAC (Hash-based Message Authentication Code) utilizando la clase Keys del paquete io.jsonwebtoken. Devuelve la clave HMAC generada.
     private Key getSignInKey() {

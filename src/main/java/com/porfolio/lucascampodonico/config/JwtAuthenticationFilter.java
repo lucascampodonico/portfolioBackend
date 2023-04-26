@@ -49,26 +49,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     //Si el valor del encabezado comienza con "Bearer ", extrae el token JWT eliminando el prefijo "Bearer " y lo utiliza para obtener el nombre de usuario del token mediante el servicio jwtService.extractUsername(jwt).
     jwt = authHeader.substring(7);
     userEmail = jwtService.extractUsername(jwt);
+      if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-    //Luego, verifica si el nombre de usuario obtenido del token es diferente de null y si no hay una autenticación previa en el contexto de seguridad de Spring.
-    if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-      //Si se cumplen estas condiciones, carga los detalles del usuario a partir del servicio userDetailsService.loadUserByUsername(userEmail) y verifica si el token JWT es válido para el usuario mediante el servicio jwtService.isTokenValid(jwt, userDetails).
-      UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-      if (jwtService.isTokenValid(jwt, userDetails)) {
-
-        //Si el token es válido, crea un objeto UsernamePasswordAuthenticationToken con los detalles del usuario y lo establece en el contexto de seguridad de Spring mediante SecurityContextHolder.getContext().setAuthentication(authToken).
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-            userDetails,
-            null,
-            userDetails.getAuthorities()
-        );
-        authToken.setDetails(
-            new WebAuthenticationDetailsSource().buildDetails(request)
-        );
-        SecurityContextHolder.getContext().setAuthentication(authToken);
+        //Si se cumplen estas condiciones, carga los detalles del usuario a partir del servicio userDetailsService.loadUserByUsername(userEmail) y verifica si el token JWT es válido para el usuario mediante el servicio jwtService.isTokenValid(jwt, userDetails).
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+          if (jwtService.isTokenValid(jwt, userDetails)) {
+  
+            //Si el token es válido, crea un objeto UsernamePasswordAuthenticationToken con los detalles del usuario y lo establece en el contexto de seguridad de Spring mediante SecurityContextHolder.getContext().setAuthentication(authToken).
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities()
+            );
+            authToken.setDetails(
+                new WebAuthenticationDetailsSource().buildDetails(request)
+            );
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+          }
+       
       }
-    }
+    //Luego, verifica si el nombre de usuario obtenido del token es diferente de null y si no hay una autenticación previa en el contexto de seguridad de Spring.
+    
 
     //Si el valor del encabezado no comienza con "Bearer ", pasa la solicitud al siguiente filtro en la cadena.
     filterChain.doFilter(request, response);

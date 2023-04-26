@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSendException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -68,10 +69,10 @@ public class ApplicationExceptionHandler {
     //Excepcion de dato no encontrado en db.
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiError handleEntityNotFoundException(EntityNotFoundException ex) {
+    public ErrorResponse handleEntityNotFoundException(EntityNotFoundException ex) {
         String message = ex.getMessage();
         int statusCode = HttpStatus.NOT_FOUND.value();
-        return new ApiError(statusCode, message, LocalDateTime.now());
+        return new ErrorResponse(statusCode, message);
     }
 
     //Excepcion en metodo de autenticación.
@@ -88,13 +89,19 @@ public class ApplicationExceptionHandler {
     public ResponseEntity<Object> handleResponseStatusException(ResponseStatusException ex) {
         return ResponseEntity.status(ex.getStatusCode())
                 .body(new ErrorResponse(ex.getStatusCode().value(), ex.getReason()));
-    }
-    
+    } 
 
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException ex) {
         String errorMessage = "El token JWT ha expirado"; // Mensaje personalizado
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
+    }
+
+    @ExceptionHandler(MailSendException.class)
+    public ResponseEntity<String> handleMailSendException(MailSendException ex) {
+        // Obtener el mensaje de error de la excepción
+        String errorMessage = "Error al enviar correo"; // Mensaje personalizado
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
     public static class ErrorResponse {
@@ -114,44 +121,6 @@ public class ApplicationExceptionHandler {
             return message;
         }
     }
-
-    public static class ApiError {
-
-        private int status;
-        private String message;
-        private LocalDateTime timestamp;
-    
-        public ApiError(int status, String message, LocalDateTime timestamp) {
-            this.status = status;
-            this.message = message;
-            this.timestamp = timestamp;
-        }
-    
-        public int getStatus() {
-            return status;
-        }
-    
-        public void setStatus(int status) {
-            this.status = status;
-        }
-    
-        public String getMessage() {
-            return message;
-        }
-    
-        public void setMessage(String message) {
-            this.message = message;
-        }
-    
-        public LocalDateTime getTimestamp() {
-            return timestamp;
-        }
-    
-        public void setTimestamp(LocalDateTime timestamp) {
-            this.timestamp = timestamp;
-        }
-    }
-
 
 }
 
