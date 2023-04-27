@@ -49,7 +49,7 @@ public class EmploymentService {
             if (employeeOptional.isPresent()) {
                 employmentRepository.deleteById(id);
             } else {
-                throw new EntityNotFoundException("El empleo no existee");
+                throw new EntityNotFoundException("El empleo no existe");
             }
         }
 

@@ -22,7 +22,7 @@ public class ProjectService {
 
         public Project findById(Integer id) {
             return projectRepository.findById(id)
-            .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleo"));
+            .orElseThrow(()-> new EntityNotFoundException("Project not found."));
         }
 
         public <S extends Project> Project save(Project request) {
@@ -31,7 +31,7 @@ public class ProjectService {
 
         public ResponseEntity<Project> updateById(Integer id, Project projectUpdated) {
             Project project = projectRepository.findById(id)
-            .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleo"));
+            .orElseThrow(()-> new EntityNotFoundException("Project not found."));
             project.setNameProject(projectUpdated.getNameProject());
             project.setImageUrl(projectUpdated.getImageUrl());
             Project projectUpdatedDB = projectRepository.save(project);
@@ -47,7 +47,7 @@ public class ProjectService {
             if (employeeOptional.isPresent()) {
                 projectRepository.deleteById(id);
             } else {
-                throw new EntityNotFoundException("El empleo no existee");
+                throw new EntityNotFoundException("The project does not exist.");
             }
         }
 
