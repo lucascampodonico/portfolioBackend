@@ -71,7 +71,6 @@ public class SecurityConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Aplica CORS a todas las rutas
                     .allowedOrigins("*") // Permitir todos los orígenes
-                    .allowedOrigins("http://localhost:8080")
                     .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS"); // Métodos permitidos
             }
         };
