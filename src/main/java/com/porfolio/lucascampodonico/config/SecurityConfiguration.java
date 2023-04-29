@@ -1,6 +1,7 @@
 package com.porfolio.lucascampodonico.config;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -16,8 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,7 +34,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .csrf().disable() //Se deshabilita la protección CSRF (Cross-Site Request Forgery) en la aplicación.
-            .cors(Customizer.withDefaults())
+            .cors().configurationSource(corsConfigurationSource()).and()
             .authorizeHttpRequests() //Se define la autorización de las peticiones HTTP.
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET).permitAll()
@@ -56,23 +55,12 @@ public class SecurityConfiguration {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-	CorsConfiguration configuration = new CorsConfiguration();
-	configuration.setAllowedOrigins(Arrays.asList("*"));
-	configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
-	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	source.registerCorsConfiguration("/**", configuration);
-	return source;
-    }
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // Aplica CORS a todas las rutas
-                    .allowedOrigins("*") // Permitir todos los orígenes
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS"); // Métodos permitidos
-            }
-        };
-    }
+    CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+    configuration.addAllowedMethod(HttpMethod.PUT);
+    configuration.addAllowedMethod(HttpMethod.DELETE);
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+}
+ 
 }
