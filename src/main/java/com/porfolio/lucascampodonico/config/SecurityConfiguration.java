@@ -1,14 +1,11 @@
 package com.porfolio.lucascampodonico.config;
 
-import java.util.Arrays;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,6 +14,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +28,9 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     @Bean
     //securityFilterChain configura la cadena de filtros de seguridad en la aplicación utilizando el objeto HttpSecurity pasado como parámetro.
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,13 +39,15 @@ public class SecurityConfiguration {
             .cors().configurationSource(corsConfigurationSource()).and()
             .authorizeHttpRequests() //Se define la autorización de las peticiones HTTP.
                 .requestMatchers("/api/v1/auth/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/user/**").authenticated()
                 .requestMatchers(HttpMethod.GET).permitAll()
                 .requestMatchers("/index.html").permitAll() //Se permite el acceso a todas las peticiones que coincidan con el patrón "/api/v1/auth/**", lo que significa que no requieren autenticación.
                 .requestMatchers("/api/v1/media/uploads/**").permitAll()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .anyRequest().authenticated() //Se permite el acceso a todas las peticiones que coincidan con el patrón "/api/v1/auth/**", lo que significa que no requieren autenticación.
             .and()
-            .exceptionHandling() //Se configura el manejo de excepciones en la seguridad.
+            .exceptionHandling()
+            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
             .and()
             .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Se configura la gestión de sesiones como "sin estado" (stateless), lo que significa que no se almacenará ninguna información de sesión en el servidor.
@@ -61,6 +65,18 @@ public class SecurityConfiguration {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;
-}
- 
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**") // Aplica CORS a todas las rutas
+                    .allowedOrigins("*") // Permitir todos los orígenes
+                    .allowedMethods("*"); // Métodos permitidos
+            }
+        };
+    }
+
 }

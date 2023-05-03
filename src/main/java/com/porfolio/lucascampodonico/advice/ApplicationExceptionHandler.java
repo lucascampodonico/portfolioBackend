@@ -91,11 +91,6 @@ public class ApplicationExceptionHandler {
                 .body(new ErrorResponse(ex.getStatusCode().value(), ex.getReason()));
     } 
 
-    @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException ex) {
-        String errorMessage = "El token JWT ha expirado"; // Mensaje personalizado
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
-    }
 
     @ExceptionHandler(MailSendException.class)
     public ResponseEntity<String> handleMailSendException(MailSendException ex) {
