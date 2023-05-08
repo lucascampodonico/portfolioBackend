@@ -12,4 +12,6 @@ RUN mvn clean package
 FROM openjdk:17-jdk-slim
 COPY --from=build /target/lucascampodonico-0.0.1-SNAPSHOT.jar lucascampodonico.jar
 
+EXPOSE 8080
+
 ENTRYPOINT ["java","-jar","lucascampodonico.jar"]
