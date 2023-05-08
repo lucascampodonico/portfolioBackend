@@ -12,6 +12,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor //Son anotaciones de Lombok que generan automáticamente constructores sin argumentos y con todos los argumentos, respectivamente, para la clase User.
 @Entity // Es una anotación de JPA que indica que la clase User es una entidad mapeada a una tabla en una base de datos. Esto permite que la clase User sea persistida y manipulada en la base de datos.
-// @Table(name= "User")
+@Table(name= "users")
 public class User implements UserDetails{
     //implements UserDetails: Indica que la clase User implementa la interfaz UserDetails de Spring Security, que define los métodos necesarios para representar los detalles de un usuario en un sistema de autenticación y autorización.
 
