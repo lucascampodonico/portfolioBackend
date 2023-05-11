@@ -25,15 +25,15 @@ public class Employment {
     @NotBlank
     private String nameEmployment;
 
-    private Date DateFrom;
+    private String DateFrom;
 
-    private Date DateTo;
+    private String DateTo;
 
     @NotBlank
     private String description;
     
 
-    public Employment(@NotBlank String nameEmployment, Date dateFrom, Date dateTo,
+    public Employment(@NotBlank String nameEmployment, String dateFrom, String dateTo,
             @NotBlank String description) {
         this.nameEmployment = nameEmployment;
         this.DateFrom = dateFrom;
@@ -51,19 +51,19 @@ public class Employment {
         this.nameEmployment = nameEmployment;
     }
 
-    public Date getDateFrom() {
+    public String getDateFrom() {
         return this.DateFrom;
     }
 
-    public void setDateFrom(Date dateFrom) {
+    public void setDateFrom(String dateFrom) {
         this.DateFrom = dateFrom;
     }
 
-    public Date getDateTo() {
+    public String getDateTo() {
         return this.DateTo;
     }
 
-    public void setDateTo(Date dateTo) {
+    public void setDateTo(String dateTo) {
         this.DateTo = dateTo;
     }
 
