@@ -39,44 +39,4 @@ public class Employment {
         this.description = description;
     }
 
-
-
-    public String getNameEmployment() {
-        return nameEmployment;
-    }
-
-    public void setNameEmployment(String nameEmployment) {
-        this.nameEmployment = nameEmployment;
-    }
-
-    public String getDateFrom() {
-        return this.DateFrom;
-    }
-
-    public void setDateFrom(String dateFrom) {
-        this.DateFrom = dateFrom;
-    }
-
-    public String getDateTo() {
-        return this.DateTo;
-    }
-
-    public void setDateTo(String dateTo) {
-        this.DateTo = dateTo;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    
-
-    
-    
-
 }
