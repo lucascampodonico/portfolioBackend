@@ -43,6 +43,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.GET).permitAll()
                 .requestMatchers("/index.html").permitAll() //Se permite el acceso a todas las peticiones que coincidan con el patrón "/api/v1/auth/**", lo que significa que no requieren autenticación.
                 .requestMatchers("/api/v1/media/uploads/**").permitAll()
+                .requestMatchers("/api/v1/send-email").permitAll()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .anyRequest().authenticated() //Se permite el acceso a todas las peticiones que coincidan con el patrón "/api/v1/auth/**", lo que significa que no requieren autenticación.
             .and()
